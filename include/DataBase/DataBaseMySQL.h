@@ -10,11 +10,11 @@
 class DataBaseMySQL : public IDataBase {
 public:
     DataBaseMySQL() {
-        this->admins = new Admins;
-        this->competitors = new Competitors;
-        this->logs = new Logs;
-        this->tasks = new Tasks;
-        this->contest = new Contest(admins, competitorsm, logs, tasks);
+        this->admins = new Admins(this);
+        this->competitors = new Competitors(this);
+        this->logs = new Logs(this);
+        this->tasks = new Tasks(this);
+        this->contest = new Contest(admins, competitorsm, logs, tasks, this);
     }
     Admins *admins;
     Competitors *competitors;
