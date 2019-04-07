@@ -3,6 +3,7 @@
 #include <iostream>
 #include "stdlib.h"
 #include "IContest.h"
+#include "ITable.h"
 #include "Competitors.h"
 #include "Logs.h"
 #include "Tasks.h"
@@ -11,7 +12,7 @@
 
 #define un unsigned
 
-class Contest : public IContest {
+class Contest : public IContest, public ITable {
 public:
     Contest(Admins* admins, Competitors* competitors, Logs* logs, Tasks* tasks, IDataBase* dataDase) {
         cout << "contest created" << endl;
@@ -32,6 +33,25 @@ public:
         return true;
     }
     bool virtual setEndTime(un int ID, string newEndTime) {
+        return true;
+    }
+
+    string virtual getTable() {
+        return "none";
+    }
+    string virtual getRow(un int ID) {
+        return "none";
+    }
+    string virtual getColumn(un int ID, string columnName) {
+        return "none";
+    }
+    bool virtual addRow(string row) {
+        return true;
+    }
+    bool virtual setRow(un int ID, string row) {
+        return true;
+    }
+    bool virtual deletRow(un int ID) {
         return true;
     }
 };
