@@ -8,6 +8,11 @@
 
 
 class DataBaseMySQL : public IDataBase {
+    friend class Admins;
+    friend class Competitors;
+    friend class Contest;
+    friend class logs;
+    friend class Tasks;
 public:
     DataBaseMySQL() {
         this->admins = new Admins(this);
