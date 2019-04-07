@@ -9,7 +9,7 @@
 class Admins : public IAdmins {
 public:
     Admins(IDataBase* dataDase) {
-
+        cout << "admins created" << endl;
     }
     string getAdminsForContest(un int contestID) {
         return "none";

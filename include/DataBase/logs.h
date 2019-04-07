@@ -9,7 +9,7 @@
 class Logs : public ILogs {
 public:
     Logs(IDataBase* dataDase) {
-
+        cout << "logs created" << endl;
     }
     string getLog(un int logID) {
         return "none";

@@ -9,10 +9,10 @@ using namespace std;
 
 class ITasks {
 public:
-    string virtual getTasksForContest(un int contestID);
-    string virtual getTask(un int taskID);
-    string virtual getinfo(un int taskID);
-    string virtual getSettings(un int taskID);
-    bool virtual setInfo(un int taskID);
-    bool virtual setSettings(un int taskID);
+    string virtual getTasksForContest(un int contestID) = 0;
+    string virtual getTask(un int taskID) = 0;
+    string virtual getinfo(un int taskID) = 0;
+    string virtual getSettings(un int taskID) = 0;
+    bool virtual setInfo(un int taskID) = 0;
+    bool virtual setSettings(un int taskID) = 0;
 };

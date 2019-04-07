@@ -9,9 +9,9 @@ using namespace std;
 
 class ICompetitors {
 public:
-    string virtual getAdminsForContest(un int contestID);
-    string virtual getAdmin(un int adminID);
-    string virtual getPermissions(un int adminD);
-    bool virtual setPermissions(un int adminID);
-    bool virtual addCompetitor(un int contestID, un int userID);
+    string virtual getAdminsForContest(un int contestID) = 0;
+    string virtual getAdmin(un int adminID) = 0;
+    string virtual getPermissions(un int adminD) = 0;
+    bool virtual setPermissions(un int adminID) = 0;
+    bool virtual addCompetitor(un int contestID, un int userID) = 0;
 };

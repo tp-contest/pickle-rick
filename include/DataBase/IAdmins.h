@@ -13,5 +13,5 @@ public:
     string virtual getAdmin(un int adminID) = 0;
     string virtual getPermissions(un int adminD) = 0;
     bool virtual setPermissions(un int adminID) = 0;
-    bool virtual addAdmin(un int userID);
+    bool virtual addAdmin(un int userID) = 0;
 };

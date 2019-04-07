@@ -22,6 +22,7 @@ public:
         this->logs = new Logs(this);
         this->tasks = new Tasks(this);
         this->contest = new Contest(admins, competitors, logs, tasks, this);
+        cout << "dataBaseMySQL created" << endl;
     }
     string select(string request) {
         return "none";

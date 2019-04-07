@@ -9,7 +9,7 @@
 class Competitors : public ICompetitors {
 public:
     Competitors(IDataBase* dataDase) {
-
+        cout << "competitors created" << endl;
     }
     string getAdminsForContest(un int contestID) {
         return "none";

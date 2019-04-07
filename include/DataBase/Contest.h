@@ -14,7 +14,7 @@
 class Contest : public IContest {
 public:
     Contest(Admins* admins, Competitors* competitors, Logs* logs, Tasks* tasks, IDataBase* dataDase) {
-
+        cout << "contest created" << endl;
     }
     un int virtual getID(string title) {
         return 1;
