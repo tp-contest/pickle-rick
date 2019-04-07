@@ -49,13 +49,6 @@ compile_commands.json
 CTestTestfile.cmake
 _deps
 
-### VisualStudioCode ###
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-
 ### CMake Patch ###
 # External projects
 *-prefix/
