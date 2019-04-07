@@ -1,3 +1,5 @@
+#pragma once
+
 #include <iostream>
 #include "stdlib.h"
 #include "Admins.h"
@@ -21,6 +23,20 @@ public:
         this->tasks = new Tasks(this);
         this->contest = new Contest(admins, competitors, logs, tasks, this);
     }
+    string select(string request) {
+        return "none";
+    }
+    string update(string request) {
+        return "none";
+    }
+    string insert(string request) {
+        return "none";
+    }
+    string delet(string request) {
+        return "none";
+    }
+
+
     Admins *admins;
     Competitors *competitors;
     Contest *contest;
