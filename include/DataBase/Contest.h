@@ -1,3 +1,5 @@
+#include <iostream>
+#include "stdlib.h"
 #include "IContest.h"
 #include "IDataBase.h"
 

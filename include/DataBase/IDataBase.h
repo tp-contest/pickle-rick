@@ -1,3 +1,10 @@
+#include <iostream>
+#include "stdlib.h"
+
+#define un unsigned
+
+using namespace std;
+
 class IDataBase {
 public:
     string virtual select(string request);

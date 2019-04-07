@@ -1,3 +1,5 @@
+#include <iostream>
+#include "stdlib.h"
 #include "ICompetitors.h"
 #include "IDataBase.h"
 

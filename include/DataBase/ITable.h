@@ -1,3 +1,10 @@
+#include <iostream>
+#include "stdlib.h"
+
+#define un unsigned
+
+using namespace std;
+
 class ITable {
 public:
     string virtual getTable();

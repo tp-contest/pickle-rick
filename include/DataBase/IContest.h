@@ -1,3 +1,10 @@
+#include <iostream>
+#include "stdlib.h"
+
+#define un unsigned
+
+using namespace std;
+
 class IContest {
 public:
     un int virtual getID(string title);
