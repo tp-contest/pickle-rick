@@ -8,7 +8,7 @@
             "type": "shell",
             "command": "g++",
             "args": [
-                "-g", "src\\DataBase\\main.cpp"
+                "-g", "include/DataBase/main.cpp",
             ],
             "group": {
                 "kind": "build",

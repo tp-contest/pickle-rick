@@ -250,5 +250,57 @@ TEST(TestTasks, TestSetSettings) {
 	ASSERT_TRUE(result);
 }
 
-/* Тестирование Comtest */
+/* Тестирование Contest */
 
+TEST(TestContest, TestGetID) {
+	TestDataBase* base = new TestDataBase();
+	string contestTitle = "MyName";
+	unsigned int contestID = base->contest->getID(contestTitle);
+	ASSERT_TRUE(contestID == 42);
+}
+
+TEST(TestContest, TestGetInfo) {
+	TestDataBase* base = new TestDataBase();
+	unsigned int contestID = 7;
+	string info = base->contest->getInfo(contestID);
+	ASSERT_TRUE(info == "[{}]");
+}
+
+TEST(TestContest, TestGetStartTime) {
+	TestDataBase* base = new TestDataBase();
+	unsigned int contestID = 7;
+	string startTime = base->contest->getStartTime(contestID);
+	ASSERT_TRUE(startTime == "[{}]");
+}
+
+TEST(TestContest, TestGetEndTime) {
+	TestDataBase* base = new TestDataBase();
+	unsigned int contestID = 7;
+	string endTime = base->contest->getEndTime(contestID);
+	ASSERT_TRUE(endTime == "[{}]");
+}
+
+TEST(TestContest, TestAddContest) {
+	TestDataBase* base = new TestDataBase();
+	string settings = "[{}]";
+	string title = "[{}]";
+	string info = "[[]]";
+	bool result = base->contest->addContest(title, info, settings);
+	ASSERT_TRUE(result);
+}
+
+TEST(TestContest, TestSetInfo) {
+	TestDataBase* base = new TestDataBase();
+	string info = "[{}]";
+	unsigned int contestID = 7;
+	bool result = base->contest->setInfo(contestID, info);
+	ASSERT_TRUE(result);
+}
+
+TEST(TestContest, TestSetEndTime) {
+	TestDataBase* base = new TestDataBase();
+	string endTime = "[{}]";
+	unsigned int contestID = 7;
+	bool result = base->contest->setInfo(contestID, endTime);
+	ASSERT_TRUE(result);
+}
