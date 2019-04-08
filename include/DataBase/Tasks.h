@@ -9,49 +9,49 @@
 
 class Tasks : public ITasks, public ITable {
 public:
-    Tasks(IDataBase* dataDase) {
-        this->dataBase = dataBase;
-        cout << "tasks created" << endl;
-    }
-    string virtual getTasksForContest(un int contestID) {
-        return "none";
-    }
-    string virtual getTask(un int taskID) {
-        return "none";
-    }
-    string virtual getinfo(un int taskID) {
-        return "none";
-    }
-    string virtual getSettings(un int taskID) {
-        return "none";
-    }
-    bool virtual setInfo(un int taskID) {
-        return true;
-    }
-    bool virtual setSettings(un int taskID) {
-        return true;
-    }
-
-
-    string virtual getTable() {
-        return "none";
-    }
-    string virtual getRow(un int ID) {
-        return "none";
-    }
-    string virtual getColumn(un int ID, string columnName) {
-        return "none";
-    }
-    bool virtual addRow(string row) {
-        return true;
-    }
-    bool virtual setRow(un int ID, string row) {
-        return true;
-    }
-    bool virtual deletRow(un int ID) {
-        return true;
-    }
+	Tasks(IDataBase* dataDase) {
+		this->dataBase = dataBase;
+		//cout << "tasks created" << endl;
+	}
+	string virtual getTasksForContest(un int contestID) {
+		return "[{}]";
+	}
+	string virtual getTask(un int taskID) {
+		return "[{}]";
+	}
+	string virtual getinfo(un int taskID) {
+		return "[{}]";
+	}
+	string virtual getSettings(un int taskID) {
+		return "[{}]";
+	}
+	bool virtual setInfo(un int taskID, string info) {
+		return true;
+	}
+	bool virtual setSettings(un int taskID, string settings) {
+		return true;
+	}
 
 private:
-    IDataBase* dataBase;
+
+	string getTable() {
+		return "none";
+	}
+	string getRow(un int ID) {
+		return "none";
+	}
+	string getColumn(un int ID, string columnName) {
+		return "none";
+	}
+	bool addRow(string row) {
+		return true;
+	}
+	bool setRow(un int ID, string row) {
+		return true;
+	}
+	bool deletRow(un int ID) {
+		return true;
+	}
+
+	IDataBase* dataBase;
 };

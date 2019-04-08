@@ -9,45 +9,51 @@
 
 class Competitors : public ICompetitors, public ITable {
 public:
-    Competitors(IDataBase* dataDase) {
-        this->dataBase = dataBase;
-        cout << "competitors created" << endl;
-    }
-    string getAdminsForContest(un int contestID) {
-        return "none";
-    }
-    string getAdmin(un int adminID) {
-        return "none";
-    }
-    string getPermissions(un int adminD) {
-        return "none";
-    }
-    bool setPermissions(un int adminID) {
-        return true;
-    }
-    bool addCompetitor(un int contestID, un int userID) {
-        return true;
-    }
-
-    string virtual getTable() {
-        return "none";
-    }
-    string virtual getRow(un int ID) {
-        return "none";
-    }
-    string virtual getColumn(un int ID, string columnName) {
-        return "none";
-    }
-    bool virtual addRow(string row) {
-        return true;
-    }
-    bool virtual setRow(un int ID, string row) {
-        return true;
-    }
-    bool virtual deletRow(un int ID) {
-        return true;
-    }
+	Competitors(IDataBase* dataDase) {
+		this->dataBase = dataBase;
+		//cout << "competitors created" << endl;
+	}
+	string getCompetitorsForContest(un int contestID) {
+		return "[{}]";
+	}
+	string getCompetitor(un int competitorID) {
+		return "[{}]";
+	}
+	un int getPersonalScore(un int competitorID) {
+		return 42;
+	}
+	string getRateList(un int contestID) {
+		return "[{}]";
+	}
+	string virtual getCompletedTasks(un int competitorID) {
+		return "[{}]";
+	}
+	bool virtual setCompletedTasks(string completedTasks, un int competitorID) {
+		return true;
+	}
+	bool addCompetitor(un int contestID, un int userID) {
+		return true;
+	}
 
 private:
-    IDataBase* dataBase;
+
+	string getTable() {
+		return "none";
+	}
+	string getRow(un int ID) {
+		return "none";
+	}
+	string getColumn(un int ID, string columnName) {
+		return "none";
+	}
+	bool addRow(string row) {
+		return true;
+	}
+	bool setRow(un int ID, string row) {
+		return true;
+	}
+	bool deletRow(un int ID) {
+		return true;
+	}
+	IDataBase* dataBase;
 };
