@@ -61,6 +61,11 @@ _deps
 !.vscode/launch.json
 !.vscode/extensions.json
 
+### VisualStudioCode Patch ###
+# Ignore all local history of files
+.history
+
+
 ### gtest ###
 test/lib/googletest/*
 gtest*
