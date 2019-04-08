@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#include "../VS2019_TP_Project/DataBaseMySQl.h"
+#include "gtest/gtest.h"
 
 class TestDataBase : public IDataBase {
 	friend class Admins;
