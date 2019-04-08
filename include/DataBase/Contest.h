@@ -15,6 +15,7 @@
 class Contest : public IContest, public ITable {
 public:
     Contest(Admins* admins, Competitors* competitors, Logs* logs, Tasks* tasks, IDataBase* dataDase) {
+        this->dataBase = dataBase;
         cout << "contest created" << endl;
     }
     un int virtual getID(string title) {
@@ -54,4 +55,7 @@ public:
     bool virtual deletRow(un int ID) {
         return true;
     }
+
+private:
+    IDataBase* dataBase;
 };

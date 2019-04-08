@@ -10,6 +10,7 @@
 class Logs : public ILogs, public ITable {
 public:
     Logs(IDataBase* dataDase) {
+        this->dataBase = dataBase;
         cout << "logs created" << endl;
     }
     string getLog(un int logID) {
@@ -41,4 +42,7 @@ public:
     bool virtual deletRow(un int ID) {
         return true;
     }
+
+private:
+    IDataBase* dataBase;
 };

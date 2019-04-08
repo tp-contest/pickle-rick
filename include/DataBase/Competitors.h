@@ -10,6 +10,7 @@
 class Competitors : public ICompetitors, public ITable {
 public:
     Competitors(IDataBase* dataDase) {
+        this->dataBase = dataBase;
         cout << "competitors created" << endl;
     }
     string getAdminsForContest(un int contestID) {
@@ -46,4 +47,7 @@ public:
     bool virtual deletRow(un int ID) {
         return true;
     }
+
+private:
+    IDataBase* dataBase;
 };

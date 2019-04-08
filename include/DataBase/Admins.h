@@ -10,6 +10,7 @@
 class Admins : public IAdmins, public ITable {
 public:
     Admins(IDataBase* dataDase) {
+        this->dataBase = dataBase;
         cout << "admins created" << endl;
     }
     string getAdminsForContest(un int contestID) {
@@ -47,4 +48,6 @@ public:
     bool virtual deletRow(un int ID) {
         return true;
     }
+private:
+    IDataBase* dataBase;
 };

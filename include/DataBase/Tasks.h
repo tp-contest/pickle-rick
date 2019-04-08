@@ -10,6 +10,7 @@
 class Tasks : public ITasks, public ITable {
 public:
     Tasks(IDataBase* dataDase) {
+        this->dataBase = dataBase;
         cout << "tasks created" << endl;
     }
     string virtual getTasksForContest(un int contestID) {
@@ -50,4 +51,7 @@ public:
     bool virtual deletRow(un int ID) {
         return true;
     }
+
+private:
+    IDataBase* dataBase;
 };
