@@ -8,10 +8,10 @@
 using namespace std;
 
 class IAdmins {
-public:
-	string virtual getAdminsForContest(un int contestID) = 0;
-	string virtual getAdmin(un int adminID) = 0;
-	string virtual getPermissions(un int adminD) = 0;
-	bool virtual setPermissions(un int adminID, string permissions) = 0;
-	bool virtual addAdmin(un int contestID, un int userID) = 0;
+ public:
+  string virtual getAdminsForContest(un int contestID) = 0;
+  string virtual getAdmin(un int adminID) = 0;
+  string virtual getPermissions(un int adminD) = 0;
+  bool virtual setPermissions(un int adminID, string permissions) = 0;
+  bool virtual addAdmin(un int contestID, un int userID) = 0;
 };
