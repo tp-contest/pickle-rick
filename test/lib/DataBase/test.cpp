@@ -1,5 +1,3 @@
-#include "pch.h"
-
 #include "gtest/gtest.h"
 
 class TestDataBase : public IDataBase {
