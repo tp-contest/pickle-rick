@@ -3,48 +3,70 @@
 #include <iostream>
 #include "stdlib.h"
 #include "ILogs.h"
-#include "ITable.h"
 #include "IDataBase.h"
 #include "DataBaseMySQL.h"
 
-class Logs : public ILogs, public ITable {
+
+class Logs : public ILogs {
 public:
 	Logs(IDataBase* dataDase) {
 		this->dataBase = dataBase;
 		cout << "logs created" << endl;
 	}
-	string getLog(un int logID) {
-		return "[{}]";
+	LogStruct getLog(int logID) override {
+		LogStruct log;
+		vector<string> result_vector;
+		result_vector = dataBase->select("*", "Logs", "id =" + to_string(logID));
+		for (int i = 0; i < result_vector.size();)
+		{
+			log.log_id = atoi(result_vector[i + 0].c_str());
+			log.user_id = atoi(result_vector[i + 1].c_str());
+			log.contest_id = atoi(result_vector[i + 2].c_str());
+			log.path = result_vector[i + 3];
+			i = i + log_field_count;
+		}
+		return log;
 	}
-	string getLogsForContest(un int contestID) {
-		return "[{}]";
+	vector<LogStruct> getLogsForContest(int contestID) override {
+		vector<LogStruct> logVector;
+		vector<string> result_vector;
+		result_vector = dataBase->select("*", "Logs", "contest_id =" + to_string(contestID));
+		for (int i = 0; i < result_vector.size();)
+		{
+			LogStruct log;
+			log.log_id = atoi(result_vector[i + 0].c_str());
+			log.user_id = atoi(result_vector[i + 1].c_str());
+			log.contest_id = atoi(result_vector[i + 2].c_str());
+			log.path = result_vector[i + 3];
+			i = i + log_field_count;
+			logVector.push_back(log);
+		}
+		return logVector;
 	}
-	string getLogsForUser(un int userID) {
-		return "[{}]";
+	vector<LogStruct> getLogsForUser(int userID) override {
+		vector<LogStruct> logVector;
+		vector<string> result_vector;
+		result_vector = dataBase->select("*", "Logs", "contest_id =" + to_string(userID));
+		for (int i = 0; i < result_vector.size();)
+		{
+			LogStruct log;
+			log.log_id = atoi(result_vector[i + 0].c_str());
+			log.user_id = atoi(result_vector[i + 1].c_str());
+			log.contest_id = atoi(result_vector[i + 2].c_str());
+			log.path = result_vector[i + 3];
+			i = i + log_field_count;
+			logVector.push_back(log);
+		}
+		return logVector;
 	}
-	bool addLog(string log) {
+	bool addLog(string path, int user_id, int contest_id) override {
+		string values = "(" + path + ", " + to_string(user_id) + ", " + to_string(user_id) + ")";
+		dataBase->insert("Logs", "(user_id, contest_id, path)", values);
 		return true;
 	}
 
 private:
 
-	string getTable() {
-		return "none";
-	}
-	string getRow(un int ID) {
-		return "none";
-	}
-	string getColumn(un int ID, string columnName) {
-		return "none";
-	}
-	bool addRow(string row) {
-		return true;
-	}
-	bool setRow(un int ID, string row) {
-		return true;
-	}
-	bool deletRow(un int ID) {
-		return true;
-	}
 	IDataBase* dataBase;
+
 };

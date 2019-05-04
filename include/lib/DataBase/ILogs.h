@@ -3,14 +3,20 @@
 #include <iostream>
 #include "stdlib.h"
 
-#define un unsigned
-
 using namespace std;
+
+struct LogStruct {
+	int log_id;
+	int user_id;
+	int contest_id;
+	string path;
+};
+const int log_field_count = 4;
 
 class ILogs {
 public:
-	string virtual getLog(un int logID) = 0;
-	string virtual getLogsForContest(un int contestID) = 0;
-	string virtual getLogsForUser(un int userID) = 0;
-	bool virtual addLog(string log) = 0;
+	LogStruct virtual getLog(int logID) = 0;
+	vector<LogStruct> virtual getLogsForContest(int contestID) = 0;
+	vector<LogStruct> virtual getLogsForUser(int userID) = 0;
+	bool virtual addLog(string path, int user_id, int contest_id) = 0;
 };

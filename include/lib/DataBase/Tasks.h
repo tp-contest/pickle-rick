@@ -3,55 +3,42 @@
 #include <iostream>
 #include "stdlib.h"
 #include "ITasks.h"
-#include "ITable.h"
 #include "IDataBase.h"
 #include "DataBaseMySQL.h"
 
-class Tasks : public ITasks, public ITable {
+class Tasks : public ITasks {
 public:
 	Tasks(IDataBase* dataDase) {
 		this->dataBase = dataBase;
 		cout << "tasks created" << endl;
 	}
-	string virtual getTasksForContest(un int contestID) {
-		return "[{}]";
+	TaskStruct getTask(int taskID) override {
+		TaskStruct task;
+		vector<string> result_vector;
+		result_vector = dataBase->select("*", "Tasks", "task_id =" + to_string(taskID));
+		task.task_id = atoi(result_vector[0].c_str());
+		task.description = result_vector[1];
+		task.settings = result_vector[2];
+		return task;
 	}
-	string virtual getTask(un int taskID) {
-		return "[{}]";
+
+	TaskStruct getTasksForContest(int contestID) override {
+		TaskStruct task;
+		vector<string> result_vector;
+		result_vector = dataBase->select("*", "Tasks", "contest_id =" + to_string(contestID));
+		task.task_id = atoi(result_vector[0].c_str());
+		task.description = result_vector[1];
+		task.settings = result_vector[2];
+		return task;
 	}
-	string virtual getinfo(un int taskID) {
-		return "[{}]";
-	}
-	string virtual getSettings(un int taskID) {
-		return "[{}]";
-	}
-	bool virtual setInfo(un int taskID, string info) {
-		return true;
-	}
-	bool virtual setSettings(un int taskID, string settings) {
+
+	bool addTask(string description, string settings) override {
+		string values = "(" + description + ", " + settings + ")";
+		dataBase->insert("Logs", "(user_id, contest_id, path)", values);
 		return true;
 	}
 
 private:
-
-	string getTable() {
-		return "none";
-	}
-	string getRow(un int ID) {
-		return "none";
-	}
-	string getColumn(un int ID, string columnName) {
-		return "none";
-	}
-	bool addRow(string row) {
-		return true;
-	}
-	bool setRow(un int ID, string row) {
-		return true;
-	}
-	bool deletRow(un int ID) {
-		return true;
-	}
 
 	IDataBase* dataBase;
 };

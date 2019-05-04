@@ -7,6 +7,13 @@
 
 using namespace std;
 
+struct ContestStruct {
+	int contest_id;
+	int start_time;
+	int end_time;
+	char* description;
+};
+
 class IContest {
 public:
 	un int virtual getID(string title) = 0;

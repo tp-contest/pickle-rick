@@ -7,6 +7,12 @@
 
 using namespace std;
 
+struct CompetitorStruct {
+	int competitor_id;
+	int contest_id;
+	int user_id;
+};
+
 class ICompetitors {
 public:
 	string virtual getCompetitorsForContest(un int contestID) = 0;

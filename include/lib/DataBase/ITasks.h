@@ -7,12 +7,15 @@
 
 using namespace std;
 
+struct TaskStruct {
+	int task_id;
+	string description;
+	string settings;
+};
+
 class ITasks {
 public:
-	string virtual getTasksForContest(un int contestID) = 0;
-	string virtual getTask(un int taskID) = 0;
-	string virtual getinfo(un int taskID) = 0;
-	string virtual getSettings(un int taskID) = 0;
-	bool virtual setInfo(un int taskID, string info) = 0;
-	bool virtual setSettings(un int taskID, string settings) = 0;
+	TaskStruct virtual getTask(int taskID) = 0;
+	TaskStruct virtual getTasksForContest(int contestID) = 0;
+	bool virtual addTask(string description, string settings) = 0;
 };

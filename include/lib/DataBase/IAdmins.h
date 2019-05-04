@@ -7,6 +7,12 @@
 
 using namespace std;
 
+struct AdminStruct {
+	int Admin_id;
+	int contest_id;
+	int user_id;
+};
+
 class IAdmins {
 public:
 	string virtual getAdminsForContest(un int contestID) = 0;
