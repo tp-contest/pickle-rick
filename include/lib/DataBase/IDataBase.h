@@ -2,15 +2,16 @@
 
 #include <iostream>
 #include "stdlib.h"
+#include <vector>
 
 #define un unsigned
 
 using namespace std;
 
 class IDataBase {
- public:
-  string virtual select(string request) = 0;
-  string virtual update(string request) = 0;
-  string virtual insert(string request) = 0;
-  string virtual delet(string request) = 0;
+public:
+	vector<string> virtual select(string selector, string table, string condition = "") = 0;
+	vector<string> virtual update(string table, string set, string condition = "") = 0;
+	vector<string> virtual insert(string table, string variables, string values) = 0;
+	vector<string> virtual delete_(string table, string condition) = 0;
 };

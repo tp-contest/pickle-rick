@@ -2,40 +2,42 @@
 
 #include <iostream>
 #include "stdlib.h"
-#include "Admins.h"
-#include "Competitors.h"
-#include "Contest.h"
-#include "Logs.h"
-#include "Tasks.h"
+#include <string>
+#include <vector>
 #include "IDataBase.h"
+#include "mysql.h"
 
 class DataBaseMySQL : public IDataBase {
-  friend class Admins;
-  friend class Competitors;
-  friend class Contest;
-  friend class logs;
-  friend class Tasks;
 
- public:
-  DataBaseMySQL() {
-    this->admins = new Admins(this);
-    this->competitors = new Competitors(this);
-    this->logs = new Logs(this);
-    this->tasks = new Tasks(this);
-    this->contest = new Contest(admins, competitors, logs, tasks, this);
-    cout << "dataBaseMySQL created" << endl;
-  }
-  string select(string request) { return "none"; }
-  string update(string request) { return "none"; }
-  string insert(string request) { return "none"; }
-  string delet(string request) { return "none"; }
+public:
+	DataBaseMySQL();
 
-  Admins* admins;
-  Competitors* competitors;
-  Contest* contest;
-  Logs* logs;
-  Tasks* tasks;
+	vector<string> select(string selector, string table, string condition = "");
 
- private:
-  void method();
+	vector<string> update(string table, string set, string condition = "");
+
+	vector<string> insert(string table, string variables, string values);
+
+	vector<string> delete_(string table, string condition);
+
+private:
+
+	void form_select_query(string selector, string table, string condition = "");
+
+	void form_update_query(string table, string set, string condition = "");
+
+	void form_insert_query(string table, string variables, string values);
+
+	void form_delete_query(string table, string condition);
+
+	void take_result_from_select();
+
+	MYSQL* conn;
+	MYSQL_ROW row;
+	MYSQL_RES* res;
+	vector<string> result_vector;
+	string query;
+	int qstate;
+
+	void method();
 };
