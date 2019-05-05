@@ -1,298 +1,344 @@
 #include "gtest/gtest.h"
+#include "mysql.h"
 
 class TestDataBase : public IDataBase {
-  friend class Admins;
-  friend class Competitors;
-  friend class Contest;
-  friend class logs;
-  friend class Tasks;
+public:
+	TestDataBase() : conn(mysql_init(NULL)) {
+		conn = mysql_real_connect(conn, "localhost", "root", "36360326v", "testdb", 3306, NULL, 0);
+		if (conn) {
+			cout << "Connection Success" << endl;
+		}
+		else
+		{
+			cout << "Connection Failed" << endl;
+		}
+		cout << "dataBaseMySQL created" << endl;
+	}
+	vector<string> select(string selector, string table, string condition) {
 
- public:
-  TestDataBase() {
-    this->admins = new Admins(this);
-    this->competitors = new Competitors(this);
-    this->logs = new Logs(this);
-    this->tasks = new Tasks(this);
-    this->contest = new Contest(admins, competitors, logs, tasks, this);
-    // cout << "dataBaseMySQL created" << endl;
-  }
-  string select(string request) { return "none"; }
-  string update(string request) { return "none"; }
-  string insert(string request) { return "none"; }
-  string delet(string request) { return "none"; }
+		result_vector.clear();
+		if (!conn)
+		{
+			result_vector.push_back("There is no connection");
+			return result_vector;
+		}
+		form_select_query(selector, table, condition);
+		if (!qstate)
+		{
+			take_result_from_select();
+		}
+		else
+		{
+			result_vector.push_back("Query failed: " + mysql_errno(conn));
+		}
+		return result_vector;
+	}
 
-  Admins* admins;
-  Competitors* competitors;
-  Contest* contest;
-  Logs* logs;
-  Tasks* tasks;
+	vector<string> update(string table, string set, string condition) {
+		result_vector.clear();
+		if (!conn)
+		{
+			result_vector.push_back("There is no connection");
+			return result_vector;
+		}
+		form_update_query(table, set, condition);
+		if (!qstate)
+		{
+			result_vector.push_back("Update Success:");
+		}
+		else
+		{
+			result_vector.push_back("Update failed: " + mysql_errno(conn));
+		}
+		return result_vector;
+	}
 
- private:
-  void method();
+	vector<string> insert(string table, string variables, string values) {
+		result_vector.clear();
+		if (!conn)
+		{
+			result_vector.push_back("There is no connection");
+			return result_vector;
+		}
+		form_insert_query(table, variables, values);
+		if (!qstate)
+		{
+			result_vector.push_back("Insert Success:");
+		}
+		else
+		{
+			result_vector.push_back("Insert failed: " + mysql_errno(conn));
+		}
+		return result_vector;
+	}
+
+	vector<string> delete_(string table, string condition) {
+		result_vector.clear();
+		if (!conn)
+		{
+			result_vector.push_back("There is no connection");
+			return result_vector;
+		}
+		form_delete_query(table, condition);
+		if (!qstate)
+		{
+			result_vector.push_back("Insert Success:");
+		}
+		else
+		{
+			result_vector.push_back("Insert failed: " + mysql_errno(conn));
+		}
+		return result_vector;
+	}
+
+private:
+
+	void form_select_query(string selector, string table, string condition) {
+		query = "";
+		if (condition != "") {
+			query = "SELECT " + selector + " FROM " + table + " WHERE " + condition + ";";
+		}
+		else {
+			query = "SELECT " + selector + " FROM " + table + ";";
+		}
+		const char* cquery = query.c_str();
+		qstate = mysql_query(conn, cquery);
+	}
+
+	void form_update_query(string table, string set, string condition) {
+		query = "";
+		if (condition != "") {
+			query = "UPDATE " + table + " SET " + set + " WHERE " + condition + ";";
+		}
+		else {
+			query = "UPDATE " + table + " SET " + set + ";";
+		}
+		const char* cquery = query.c_str();
+		qstate = mysql_query(conn, cquery);
+	}
+
+	void form_insert_query(string table, string variables, string values) {
+		query = "INSERT INTO " + table + " " + variables + " VALUES " + values + ";";
+		const char* cquery = query.c_str();
+		qstate = mysql_query(conn, cquery);
+	}
+
+	void form_delete_query(string table, string condition) {
+		query = "DELETE FROM " + table + " WHERE " + condition + ";";
+		const char* cquery = query.c_str();
+		qstate = mysql_query(conn, cquery);
+	}
+
+	void take_result_from_select() {
+		res = mysql_store_result(conn);
+		while (row = mysql_fetch_row(res))
+		{
+			for (int i = 0; i < mysql_num_fields(res); i++)
+			{
+				result_vector.push_back(row[i]);
+			}
+		}
+	}
+
+
+	MYSQL* conn;
+	MYSQL_ROW row;
+	MYSQL_RES* res;
+	vector<string> result_vector;
+	string query;
+	int qstate;
+};
+
+struct contestDB {
+
+	contestDB() {
+		DB = new  TestDataBase;
+		admins = new Admins(DB);
+		competitors = new Competitors(DB);
+		tasks = new Tasks(DB);
+		logs = new Logs(DB);
+		contest = new Contest(admins, competitors, logs, tasks, DB);
+	};
+
+	TestDataBase* DB;
+	Admins* admins;
+	Competitors* competitors;
+	Tasks* tasks;
+	Logs* logs;
+	Contest* contest;
 };
 
 /* Тестирование создания объектов. */
 
 TEST(TestCreate, CreateAdmins) {
-  TestDataBase base;
-  Admins* admins = NULL;
-  admins = new Admins(&base);
-  EXPECT_TRUE(admins != NULL);
+	TestDataBase base;
+	Admins* admins = NULL;
+	admins = new Admins(&base);
+	EXPECT_TRUE(admins != NULL);
 }
 
 TEST(TestCreate, CreateCompetitors) {
-  TestDataBase base;
-  Competitors* competitors = NULL;
-  competitors = new Competitors(&base);
-  EXPECT_TRUE(competitors != NULL);
+	TestDataBase base;
+	Competitors* competitors = NULL;
+	competitors = new Competitors(&base);
+	EXPECT_TRUE(competitors != NULL);
 }
 
 TEST(TestCreate, CreateLogs) {
-  TestDataBase base;
-  Logs* logs = NULL;
-  logs = new Logs(&base);
-  EXPECT_TRUE(logs != NULL);
+	TestDataBase base;
+	Logs* logs = NULL;
+	logs = new Logs(&base);
+	EXPECT_TRUE(logs != NULL);
 }
 
 TEST(TestCreate, CreateTasks) {
-  TestDataBase base;
-  Tasks* tasks = NULL;
-  tasks = new Tasks(&base);
-  EXPECT_TRUE(tasks != NULL);
+	TestDataBase base;
+	Tasks* tasks = NULL;
+	tasks = new Tasks(&base);
+	EXPECT_TRUE(tasks != NULL);
 }
 
 TEST(TestCreate, CreateContest) {
-  TestDataBase base;
-  Contest* contest = NULL;
-  contest = new Contest(NULL, NULL, NULL, NULL, &base);
-  EXPECT_TRUE(contest != NULL);
+	TestDataBase base;
+	Contest* contest = NULL;
+	contest = new Contest(NULL,NULL,NULL,NULL,&base);
+	EXPECT_TRUE(contest != NULL);
 }
 
 TEST(TestCreate, CreateDataBase) {
-  DataBaseMySQL* base = new DataBaseMySQL;
-  EXPECT_TRUE(base != NULL);
+	DataBaseMySQL* base = new DataBaseMySQL;
+	EXPECT_TRUE(base != NULL);
 }
 
 /* Тестирование Admins */
 
 TEST(TestAdmins, TestGetAdminsForContes) {
-  TestDataBase* base = new TestDataBase();
-  unsigned int contestID = 3;
-  string adminsList = base->admins->getAdminsForContest(contestID);
-  ASSERT_TRUE(adminsList == "[{}]");
+	contestDB* base = new contestDB();
+	unsigned int contestID = 3;
+	vector<AdminStruct> adminsList = base->admins->getAdminsForContest(contestID);
+	ASSERT_TRUE(adminsList.size() > 0);
 }
 
 TEST(TestAdmins, TestGetAdmin) {
-  TestDataBase* base = new TestDataBase();
-  unsigned int adminID = 42;
-  string admin = base->admins->getAdmin(adminID);
-  ASSERT_TRUE(admin == "[{}]");
+	contestDB* base = new contestDB();
+	unsigned int adminID = 42;
+	AdminStruct admin;
+	admin = base->admins->getAdmin(adminID);
+	ASSERT_TRUE(admin.admin_id != -1);
 }
 
-TEST(TestAdmins, TestGetPermissions) {
-  TestDataBase* base = new TestDataBase();
-  unsigned int adminID = 10;
-  string permissions = base->admins->getPermissions(adminID);
-  ASSERT_TRUE(permissions == "[{}]");
-}
-
-TEST(TestAdmins, TestSetPermissions) {
-  TestDataBase* base = new TestDataBase();
-  unsigned int adminID = 10;
-  string permissions;
-  bool result = base->admins->setPermissions(adminID, permissions);
-  ASSERT_TRUE(result);
-}
 
 TEST(TestAdmins, TestAddAdmin) {
-  TestDataBase* base = new TestDataBase();
-  unsigned int userID = 10;
-  unsigned int contestID = 3;
-  bool result = base->admins->addAdmin(contestID, userID);
-  ASSERT_TRUE(result);
+	contestDB* base = new contestDB();
+	unsigned int userID = 10;
+	unsigned int contestID = 3;
+	bool result = base->admins->setAdmin(contestID, userID);
+	ASSERT_TRUE(result);
 }
 
 /* Тестирование Competitors */
 
 TEST(TestCompetitors, TestGetCompetitorsForContest) {
-  TestDataBase* base = new TestDataBase();
-  unsigned int contestID = 4;
-  string competitorslList =
-      base->competitors->getCompetitorsForContest(contestID);
-  ASSERT_TRUE(competitorslList == "[{}]");
+	contestDB* base = new contestDB();
+	unsigned int contestID = 4;
+	vector<CompetitorStruct> competitorslList = base->competitors->getCompetitorsForContest(contestID);
+	ASSERT_TRUE(!competitorslList.empty());
 }
 
 TEST(TestCompetitors, TestGetCompetitor) {
-  TestDataBase* base = new TestDataBase();
-  unsigned int competitorID = 4;
-  string competitor = base->competitors->getCompetitor(competitorID);
-  ASSERT_TRUE(competitor == "[{}]");
+	contestDB* base = new contestDB();
+	unsigned int competitorID = 4;
+	CompetitorStruct competitor = base->competitors->getCompetitor(competitorID);
+	ASSERT_TRUE(competitor.competitor_id != -1);
 }
 
-TEST(TestCompetitors, TestGetPersonalScore) {
-  TestDataBase* base = new TestDataBase();
-  unsigned int competitorID = 4;
-  unsigned int score = base->competitors->getPersonalScore(competitorID);
-  ASSERT_TRUE(score >= 0);
+TEST(TestCompetitors, TestSetCompetitor) {
+	contestDB* base = new contestDB();
+	int contest_id = 4;
+	int user_id = 2;
+	bool result = base->competitors->setCompetitor(contest_id, user_id);
+	ASSERT_TRUE(result);
 }
 
-TEST(TestCompetitors, TestGetRateList) {
-  TestDataBase* base = new TestDataBase();
-  unsigned int contestID = 4;
-  string rateList = base->competitors->getRateList(contestID);
-  ASSERT_TRUE(rateList == "[{}]");
-}
-
-TEST(TestCompetitors, TestGetCompletedTasks) {
-  TestDataBase* base = new TestDataBase();
-  unsigned int competitorID = 4;
-  string tasksList = base->competitors->getCompletedTasks(competitorID);
-  ASSERT_TRUE(tasksList == "[{}]");
-}
-
-TEST(TestCompetitors, TestSetCompletedTasks) {
-  TestDataBase* base = new TestDataBase();
-  unsigned int competitorID = 4;
-  string tasksList = "[{}]";
-  bool result = base->competitors->setCompletedTasks(tasksList, competitorID);
-  ASSERT_TRUE(tasksList == "[{}]");
-}
-
-TEST(TestCompetitors, TestAddCompetitor) {
-  TestDataBase* base = new TestDataBase();
-  unsigned int userID = 4;
-  unsigned int contestID = 4;
-  bool result = base->competitors->addCompetitor(contestID, userID);
-  ASSERT_TRUE(result);
-}
 
 /* Тестирование Logs */
 
 TEST(TestLogs, TestGetLog) {
-  TestDataBase* base = new TestDataBase();
-  unsigned int logID = 9;
-  string log = base->logs->getLog(logID);
-  ASSERT_TRUE(log == "[{}]");
+	contestDB* base = new contestDB();
+	unsigned int logID = 9;
+	LogStruct log = base->logs->getLog(logID);
+	ASSERT_TRUE(log.contest_id != -1);
 }
 
 TEST(TestLogs, TestGetLogsForContest) {
-  TestDataBase* base = new TestDataBase();
-  unsigned int contestID = 4;
-  string logsList = base->logs->getLogsForContest(contestID);
-  ASSERT_TRUE(logsList == "[{}]");
+	contestDB* base = new contestDB();
+	unsigned int contestID = 4;
+	vector<LogStruct> logsList = base->logs->getLogsForContest(contestID);
+	ASSERT_TRUE(!logsList.empty());
 }
 
 TEST(TestLogs, TestGetLogsForUser) {
-  TestDataBase* base = new TestDataBase();
-  unsigned int userID = 33;
-  string logsList = base->logs->getLogsForUser(userID);
-  ASSERT_TRUE(logsList == "[{}]");
+	contestDB* base = new contestDB();
+	unsigned int userID = 33;
+	vector<LogStruct> logsList = base->logs->getLogsForUser(userID);
+	ASSERT_TRUE(!logsList.empty());
 }
 
 TEST(TestLogs, TestAddLog) {
-  TestDataBase* base = new TestDataBase();
-  string log = "[{}]";
-  bool result = base->logs->addLog(log);
-  ASSERT_TRUE(result);
+	contestDB* base = new contestDB();
+	int user_id = 12;
+	int contest_id = 4;
+	string path;
+	bool result = base->logs->addLog(path, user_id, contest_id);
+	ASSERT_TRUE(result);
 }
 
 /* Тестирование Tasks */
 
 TEST(TestTasks, TestGetTasksForContest) {
-  TestDataBase* base = new TestDataBase();
-  unsigned int contestID = 6;
-  string tasksList = base->tasks->getTasksForContest(contestID);
-  ASSERT_TRUE(tasksList == "[{}]");
+	contestDB* base = new contestDB();
+	unsigned int contestID = 6;
+	vector<TaskStruct> tasksList = base->tasks->getTasksForContest(contestID);
+	ASSERT_TRUE(!tasksList.empty());
 }
 
 TEST(TestTasks, TestGetTask) {
-  TestDataBase* base = new TestDataBase();
-  unsigned int taskID = 6;
-  string task = base->tasks->getTask(taskID);
-  ASSERT_TRUE(task == "[{}]");
+	contestDB* base = new contestDB();
+	unsigned int taskID = 6;
+	TaskStruct task = base->tasks->getTask(taskID);
+	ASSERT_TRUE(task.task_id != -1);
 }
 
-TEST(TestTasks, TestGetInfo) {
-  TestDataBase* base = new TestDataBase();
-  unsigned int taskID = 6;
-  string taskInfo = base->tasks->getinfo(taskID);
-  ASSERT_TRUE(taskInfo == "[{}]");
-}
-
-TEST(TestTasks, TestGetSettings) {
-  TestDataBase* base = new TestDataBase();
-  unsigned int taskID = 6;
-  string taskSettings = base->tasks->getSettings(taskID);
-  ASSERT_TRUE(taskSettings == "[{}]");
-}
-
-TEST(TestTasks, TestSetInfo) {
-  TestDataBase* base = new TestDataBase();
-  string info = "[{}]";
-  unsigned taskID = 12;
-  bool result = base->tasks->setInfo(taskID, info);
-  ASSERT_TRUE(result);
-}
-
-TEST(TestTasks, TestSetSettings) {
-  TestDataBase* base = new TestDataBase();
-  string settings = "[{}]";
-  unsigned taskID = 12;
-  bool result = base->tasks->setInfo(taskID, settings);
-  ASSERT_TRUE(result);
+TEST(TestTasks, TestSetTask) {
+	contestDB* base = new contestDB();
+	string description = "[{}]";
+	string settings = "[{}]";
+	bool result = base->tasks->addTask(description, settings);
+	ASSERT_TRUE(result);
 }
 
 /* Тестирование Contest */
 
-TEST(TestContest, TestGetID) {
-  TestDataBase* base = new TestDataBase();
-  string contestTitle = "MyName";
-  unsigned int contestID = base->contest->getID(contestTitle);
-  ASSERT_TRUE(contestID == 42);
+TEST(TestContest, TestGetContestWithTitle) {
+	contestDB* base = new contestDB();
+	string contestTitle = "MyName";
+	ContestStruct contest = base->contest->getContest(contestTitle);
+	ASSERT_TRUE(contest.contest_id != -1);
 }
 
-TEST(TestContest, TestGetInfo) {
-  TestDataBase* base = new TestDataBase();
-  unsigned int contestID = 7;
-  string info = base->contest->getInfo(contestID);
-  ASSERT_TRUE(info == "[{}]");
+TEST(TestContest, TestGetContestWithID) {
+	contestDB* base = new contestDB();
+	int contestID = 7;
+	ContestStruct contest = base->contest->getContest(contestID);
+	ASSERT_TRUE(contest.contest_id != -1);
 }
 
-TEST(TestContest, TestGetStartTime) {
-  TestDataBase* base = new TestDataBase();
-  unsigned int contestID = 7;
-  string startTime = base->contest->getStartTime(contestID);
-  ASSERT_TRUE(startTime == "[{}]");
-}
-
-TEST(TestContest, TestGetEndTime) {
-  TestDataBase* base = new TestDataBase();
-  unsigned int contestID = 7;
-  string endTime = base->contest->getEndTime(contestID);
-  ASSERT_TRUE(endTime == "[{}]");
-}
 
 TEST(TestContest, TestAddContest) {
-  TestDataBase* base = new TestDataBase();
-  string settings = "[{}]";
-  string title = "[{}]";
-  string info = "[[]]";
-  bool result = base->contest->addContest(title, info, settings);
-  ASSERT_TRUE(result);
-}
-
-TEST(TestContest, TestSetInfo) {
-  TestDataBase* base = new TestDataBase();
-  string info = "[{}]";
-  unsigned int contestID = 7;
-  bool result = base->contest->setInfo(contestID, info);
-  ASSERT_TRUE(result);
-}
-
-TEST(TestContest, TestSetEndTime) {
-  TestDataBase* base = new TestDataBase();
-  string endTime = "[{}]";
-  unsigned int contestID = 7;
-  bool result = base->contest->setInfo(contestID, endTime);
-  ASSERT_TRUE(result);
+	contestDB* base = new contestDB();
+	int start_time = 4500;
+	int end_time = 7000;
+	string description = "[{}]";
+	bool result = base->contest->setContest(start_time, end_time, description);
+	ASSERT_TRUE(result);
 }
