@@ -12,16 +12,15 @@ class DataBaseMySQL : public IDataBase {
 public:
 	DataBaseMySQL();
 
-	vector<string> select(string selector, string table, string condition = "");
+	vector<string> select(string selector, string table, string condition = "") override;
 
-	vector<string> update(string table, string set, string condition = "");
+	vector<string> update(string table, string set, string condition = "") override;
 
-	vector<string> insert(string table, string variables, string values);
+	vector<string> insert(string table, string variables, string values) override;
 
-	vector<string> delete_(string table, string condition);
+	vector<string> delete_(string table, string condition) override ;
 
 private:
-
 	void form_select_query(string selector, string table, string condition = "");
 
 	void form_update_query(string table, string set, string condition = "");

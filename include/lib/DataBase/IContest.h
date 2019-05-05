@@ -2,8 +2,7 @@
 
 #include <iostream>
 #include "stdlib.h"
-
-#define un unsigned
+#include <vector>
 
 using namespace std;
 
@@ -11,16 +10,16 @@ struct ContestStruct {
 	int contest_id;
 	int start_time;
 	int end_time;
-	char* description;
+	string description;
 };
 
 class IContest {
 public:
-	un int virtual getID(string title) = 0;
-	string virtual getInfo(un int ID) = 0;
-	string virtual getStartTime(un int ID) = 0;
-	string virtual getEndTime(un int ID) = 0;
-	bool virtual addContest(string title, string infom, string settings) = 0;
-	bool virtual setInfo(un int ID, string newInfo) = 0;
-	bool virtual setEndTime(un int ID, string newEndTime) = 0;
+	ContestStruct virtual getContest(int contestID) = 0;
+
+	ContestStruct virtual getContest(string title) = 0;
+
+	vector<ContestStruct> virtual getContestsList() = 0;
+
+	bool virtual setContest(int start_time, int end_time, string description) = 0;
 };

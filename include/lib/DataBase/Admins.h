@@ -9,30 +9,14 @@
 class Admins : public IAdmins {
 
 public:
-	Admins(IDataBase* dataDase) {
-		this->dataBase = dataBase;
-		cout << "admins created" << endl;
-	}
+	Admins(IDataBase* dataDase);
 
-	string getAdminsForContest(un int contestID) {
-		return "[{}]";
-	}
+	AdminStruct getAdmin(int adminID) override;
 
-	string getAdmin(un int adminID) {
-		return "[{}]";
-	}
+	vector<AdminStruct> getAdminsForContest(int contestID) override;
 
-	string getPermissions(un int adminD) {
-		return "[{}]";
-	}
+	bool setAdmin(int contestID, int userID, int adminID = -1) override;
 
-	bool setPermissions(un int adminID, string permissions) {
-		return true;
-	}
-
-	bool addAdmin(un int contestID, un int userID) {
-		return true;
-	}
 
 private:
 

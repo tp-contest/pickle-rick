@@ -8,31 +8,13 @@
 
 class Competitors : public ICompetitors {
 public:
-	Competitors(IDataBase* dataDase) {
-		this->dataBase = dataBase;
-		cout << "competitors created" << endl;
-	}
-	string getCompetitorsForContest(un int contestID) {
-		return "[{}]";
-	}
-	string getCompetitor(un int competitorID) {
-		return "[{}]";
-	}
-	un int getPersonalScore(un int competitorID) {
-		return 42;
-	}
-	string getRateList(un int contestID) {
-		return "[{}]";
-	}
-	string virtual getCompletedTasks(un int competitorID) {
-		return "[{}]";
-	}
-	bool virtual setCompletedTasks(string completedTasks, un int competitorID) {
-		return true;
-	}
-	bool addCompetitor(un int contestID, un int userID) {
-		return true;
-	}
+	Competitors(IDataBase* dataDase);
+
+	CompetitorStruct getCompetitor(int competitorID) override;
+
+	vector<CompetitorStruct> getCompetitorsForContest(int contestID) override;
+
+	bool virtual setCompetitor(int contestID, int userID, int competitorID = -1) override;
 
 private:
 

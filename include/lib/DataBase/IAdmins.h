@@ -2,8 +2,7 @@
 
 #include <iostream>
 #include "stdlib.h"
-
-#define un unsigned
+#include <vector>
 
 using namespace std;
 
@@ -12,12 +11,13 @@ struct AdminStruct {
 	int contest_id;
 	int user_id;
 };
+const int admin_field_count = 3;
 
 class IAdmins {
 public:
-	string virtual getAdminsForContest(un int contestID) = 0;
-	string virtual getAdmin(un int adminID) = 0;
-	string virtual getPermissions(un int adminD) = 0;
-	bool virtual setPermissions(un int adminID, string permissions) = 0;
-	bool virtual addAdmin(un int contestID, un int userID) = 0;
+	AdminStruct virtual getAdmin(int adminID) = 0;
+
+	vector<AdminStruct> virtual getAdminsForContest(int contestID) = 0;
+
+	bool virtual setAdmin(int contestID, int userID, int adminID = -1) = 0;
 };

@@ -2,8 +2,7 @@
 
 #include <iostream>
 #include "stdlib.h"
-
-#define un unsigned
+#include <vector>
 
 using namespace std;
 
@@ -16,6 +15,8 @@ struct TaskStruct {
 class ITasks {
 public:
 	TaskStruct virtual getTask(int taskID) = 0;
+
 	TaskStruct virtual getTasksForContest(int contestID) = 0;
+
 	bool virtual addTask(string description, string settings) = 0;
 };
