@@ -3,5 +3,5 @@
 
 class IFileSystemObject {
 public:
-    std::string virtual GetName() = 0;
+  std::string virtual getName() const = 0;
 };
