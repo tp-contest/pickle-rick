@@ -9,7 +9,7 @@
 
 class Logs : public ILogs {
 public:
-	Logs(IDataBase* dataDase);
+	Logs(IDataBase* DB);
 
 	LogStruct getLog(int logID) override;
 
@@ -21,6 +21,6 @@ public:
 
 private:
 
-	IDataBase* dataBase;
+	IDataBase* dataBase = NULL;
 
 };

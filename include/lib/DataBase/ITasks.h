@@ -11,12 +11,13 @@ struct TaskStruct {
 	string description;
 	string settings;
 };
+const int task_field_count = 3;
 
 class ITasks {
 public:
 	TaskStruct virtual getTask(int taskID) = 0;
 
-	TaskStruct virtual getTasksForContest(int contestID) = 0;
+	vector<TaskStruct> virtual getTasksForContest(int contestID) = 0;
 
 	bool virtual addTask(string description, string settings) = 0;
 };

@@ -37,6 +37,4 @@ private:
 	vector<string> result_vector;
 	string query;
 	int qstate;
-
-	void method();
 };

@@ -8,15 +8,15 @@
 
 class Tasks : public ITasks {
 public:
-	Tasks(IDataBase* dataDase);
+	Tasks(IDataBase* DB);
 
 	TaskStruct getTask(int taskID) override;
 
-	TaskStruct getTasksForContest(int contestID) override;
+	vector<TaskStruct> getTasksForContest(int contestID) override;
 
 	bool addTask(string description, string settings) override;
 
 private:
 
-	IDataBase* dataBase;
+	IDataBase* dataBase = NULL;
 };

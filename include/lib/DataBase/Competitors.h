@@ -8,7 +8,9 @@
 
 class Competitors : public ICompetitors {
 public:
-	Competitors(IDataBase* dataDase);
+	Competitors(IDataBase* DB) {
+		this->dataBase = DB;
+	}
 
 	CompetitorStruct getCompetitor(int competitorID) override;
 
@@ -18,6 +20,6 @@ public:
 
 private:
 
-	IDataBase* dataBase;
+	IDataBase* dataBase = NULL;
 
 };

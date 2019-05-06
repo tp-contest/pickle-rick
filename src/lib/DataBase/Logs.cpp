@@ -1,13 +1,16 @@
 #include "Logs.h"
 
-Logs::Logs(IDataBase* dataDase) {
-	this->dataBase = dataBase;
-	cout << "logs created" << endl;
+Logs::Logs(IDataBase* DB) {
+	this->dataBase = DB;
 }
 LogStruct Logs::getLog(int logID) {
 	LogStruct log;
 	vector<string> result_vector;
 	result_vector = dataBase->select("*", "Logs", "id =" + to_string(logID));
+	if (result_vector.size() == 1) {
+		log.log_id = -1;
+		return log;
+	}
 	for (int i = 0; i < result_vector.size();)
 	{
 		log.log_id = atoi(result_vector[i + 0].c_str());
@@ -22,6 +25,12 @@ vector<LogStruct> Logs::getLogsForContest(int contestID) {
 	vector<LogStruct> logVector;
 	vector<string> result_vector;
 	result_vector = dataBase->select("*", "Logs", "contest_id =" + to_string(contestID));
+	if (result_vector.size() == 1) {
+		LogStruct log;
+		log.log_id = -1;
+		logVector.push_back(log);
+		return logVector;
+	}
 	for (int i = 0; i < result_vector.size();)
 	{
 		LogStruct log;
@@ -38,6 +47,12 @@ vector<LogStruct> Logs::getLogsForUser(int userID) {
 	vector<LogStruct> logVector;
 	vector<string> result_vector;
 	result_vector = dataBase->select("*", "Logs", "contest_id =" + to_string(userID));
+	if (result_vector.size() == 1) {
+		LogStruct log;
+		log.log_id = -1;
+		logVector.push_back(log);
+		return logVector;
+	}
 	for (int i = 0; i < result_vector.size();)
 	{
 		LogStruct log;

@@ -5,14 +5,9 @@ class TestDataBase : public IDataBase {
 public:
 	TestDataBase() : conn(mysql_init(NULL)) {
 		conn = mysql_real_connect(conn, "localhost", "root", "36360326v", "testdb", 3306, NULL, 0);
-		if (conn) {
-			cout << "Connection Success" << endl;
-		}
-		else
-		{
+		if (!conn) {
 			cout << "Connection Failed" << endl;
 		}
-		cout << "dataBaseMySQL created" << endl;
 	}
 	vector<string> select(string selector, string table, string condition) {
 
@@ -224,7 +219,7 @@ TEST(TestAdmins, TestGetAdmin) {
 	unsigned int adminID = 42;
 	AdminStruct admin;
 	admin = base->admins->getAdmin(adminID);
-	ASSERT_TRUE(admin.admin_id != -1);
+	ASSERT_TRUE(admin.admin_id < 0);
 }
 
 
@@ -249,7 +244,7 @@ TEST(TestCompetitors, TestGetCompetitor) {
 	contestDB* base = new contestDB();
 	unsigned int competitorID = 4;
 	CompetitorStruct competitor = base->competitors->getCompetitor(competitorID);
-	ASSERT_TRUE(competitor.competitor_id != -1);
+	ASSERT_TRUE(competitor.competitor_id < 0);
 }
 
 TEST(TestCompetitors, TestSetCompetitor) {
@@ -306,7 +301,7 @@ TEST(TestTasks, TestGetTask) {
 	contestDB* base = new contestDB();
 	unsigned int taskID = 6;
 	TaskStruct task = base->tasks->getTask(taskID);
-	ASSERT_TRUE(task.task_id != -1);
+	ASSERT_TRUE(task.task_id < 0);
 }
 
 TEST(TestTasks, TestSetTask) {
@@ -323,14 +318,14 @@ TEST(TestContest, TestGetContestWithTitle) {
 	contestDB* base = new contestDB();
 	string contestTitle = "MyName";
 	ContestStruct contest = base->contest->getContest(contestTitle);
-	ASSERT_TRUE(contest.contest_id != -1);
+	ASSERT_TRUE(contest.contest_id < 0);
 }
 
 TEST(TestContest, TestGetContestWithID) {
 	contestDB* base = new contestDB();
 	int contestID = 7;
 	ContestStruct contest = base->contest->getContest(contestID);
-	ASSERT_TRUE(contest.contest_id != -1);
+	ASSERT_TRUE(contest.contest_id < 0);
 }
 
 

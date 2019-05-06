@@ -10,9 +10,11 @@
 #include "IDataBase.h"
 #include "DataBaseMySQL.h"
 
+
+
 class Contest : public IContest {
 public:
-	Contest(Admins* admins, Competitors* competitors, Logs* logs, Tasks* tasks, IDataBase* dataDase);
+	Contest(Admins* admins, Competitors* competitors, Logs* logs, Tasks* tasks, IDataBase* DB);
 
 	ContestStruct getContest(int contestID) override;
 
@@ -24,6 +26,6 @@ public:
 
 private:
 
-	IDataBase* dataBase;
+	IDataBase* dataBase = NULL;
 
 };

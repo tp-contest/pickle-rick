@@ -4,14 +4,9 @@
 
 DataBaseMySQL::DataBaseMySQL() : conn(mysql_init(NULL)) {
 	conn = mysql_real_connect(conn, "localhost", "root", "36360326v", "testdb", 3306, NULL, 0);
-	if (conn) {
-		cout << "Connection Success" << endl;
-	}
-	else
-	{
+	if (!conn) {
 		cout << "Connection Failed" << endl;
 	}
-	cout << "dataBaseMySQL created" << endl;
 }
 vector<string> DataBaseMySQL::select(string selector, string table, string condition) {
 

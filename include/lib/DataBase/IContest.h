@@ -12,6 +12,7 @@ struct ContestStruct {
 	int end_time;
 	string description;
 };
+const int contest_field_count = 4;
 
 class IContest {
 public:

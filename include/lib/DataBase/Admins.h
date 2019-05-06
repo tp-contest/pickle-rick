@@ -3,13 +3,14 @@
 #include <iostream>
 #include "stdlib.h"
 #include "IAdmins.h"
-#include "IDataBase.h"
-#include "DataBaseMySQL.h"
 
 class Admins : public IAdmins {
 
 public:
-	Admins(IDataBase* dataDase);
+
+	Admins(IDataBase* Base) {
+		this->dataBase = Base;
+	}
 
 	AdminStruct getAdmin(int adminID) override;
 
@@ -20,5 +21,5 @@ public:
 
 private:
 
-	IDataBase* dataBase;
+	IDataBase* dataBase = NULL;
 };
