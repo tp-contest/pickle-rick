@@ -1,7 +1,8 @@
 #include "ContestStorage.h"
 
-ContestStorage::ContestStorage(IStorage* storageMethod) {
+ContestStorage::ContestStorage(IStorage* storageMethod, ILinkGenerator* lg) {
   storage = storageMethod;
+  linkGen = lg;
 }
 
 void ContestStorage::saveFile(const ContestFileInfo& contestFile, std::string content) {

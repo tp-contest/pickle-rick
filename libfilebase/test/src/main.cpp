@@ -3,6 +3,7 @@
 #include "Folder.h"
 #include "MemoryFile.h"
 #include "FileSystem.h"
+#include "Downloader.h"
 #include "ContestStorage.h"
 
 TEST (DummyFile, Setting) {
@@ -26,14 +27,23 @@ TEST (Folder, AddingObjects) {
 }
 
 TEST (ContestStorage, FindingFiles) {
-    ContestStorage a1(new FileSystem());
+    auto *fs = new FileSystem();
+    ContestStorage a1(fs, new Downloader(*fs));
 
     ContestFileInfo file1;
     file1.fileName = "test.cpp";
     file1.contestID = 1;
     file1.contestantID = 12;
+
+    ContestFileInfo file2;
+    file2.fileName = "hello.exe";
+    file2.contestID = 1;
+    file1.contestantID = 12;
+
     a1.saveFile(file1, "Hello world!");
-    a1.findFile(file1);
+    a1.saveFile(file2, "dadadadawdada");
+    ASSERT_EQ(a1.findFile(file1)->getContent(), "Hello world!");
+    ASSERT_EQ(a1.findFile(file2)->getContent(), "dadadadawdada");
 }
 
 int main(int argc, char** argv) {

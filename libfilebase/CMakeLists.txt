@@ -14,6 +14,7 @@ set (
     src/Folder.cpp
     src/FileSystem.cpp
     src/ContestStorage.cpp 
+    src/Downloader.cpp
     include/FileInfo.h
     include/ContestFileInfo.h
     include/IStorage.h
@@ -21,6 +22,8 @@ set (
     include/FileSystem.h
     include/IFileSystemObject.h
     include/IFile.h
+    include/ILinkGenerator.h
+    include/Downloader.h
     include/Folder.h
     include/MemoryFile.h
 )
