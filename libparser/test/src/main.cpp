@@ -25,7 +25,8 @@ const std::string input = (
         "--1BEF0A57BE110FD467A--\r\n"
 );
 
-TEST (MultipartParser, FindingABoundary) {
+TEST (MultipartParser, FindingABoundary)
+{
     using std::string;
 
     MultipartParser parser;
@@ -35,7 +36,8 @@ TEST (MultipartParser, FindingABoundary) {
     ASSERT_EQ(parser.getBoundary(), "1BEF0A57BE110FD467A");
 }
 
-TEST (MultipartParser, Parsing) {
+TEST (MultipartParser, Parsing)
+{
     using std::string;
 
     MultipartParser parser;
@@ -43,6 +45,21 @@ TEST (MultipartParser, Parsing) {
     parser.parse(input);
 
     ASSERT_EQ(parser["news_header"], "Пример новости");   
+}
+
+TEST (MultipartParser, Moving)
+{
+    using std::string;
+
+    MultipartParser parser2;
+
+    {
+        MultipartParser parser1;
+        parser1.parse(input);
+        parser2 = std::move(parser1);
+    } // parser1 goes out of scope...
+
+    ASSERT_EQ(parser2["news_header"], "Пример новости");   
 }
 
 int main(int argc, char** argv)

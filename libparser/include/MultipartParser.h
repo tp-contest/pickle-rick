@@ -18,14 +18,14 @@ public:
 
     /* 
      * Парсер, скорее всего, будет содержать в себе огромное количество
-     * информации(все тело документа), так что копировать его будет невыгодно;
+     * информации, так что копировать его будет невыгодно;
      * поэтому разрешено только его перемещение
      */
     MultipartParser(const MultipartParser&) = delete;
     MultipartParser &operator=(const MultipartParser&) = delete;
 
     MultipartParser(MultipartParser&&);
-    MultipartParser operator=(MultipartParser&&);
+    MultipartParser &operator=(MultipartParser&&);
 
     virtual void parse(std::string);
     bool doneParsing();
@@ -34,9 +34,10 @@ public:
     std::string getBoundary() const;
 
     const std::string operator[](const std::string&) noexcept;
+
+    inline friend void swap(MultipartParser&, MultipartParser&);
 private:
     std::string boundary;
-    // std::vector<part> parts;
     std::map<std::string, std::string> content;
 
     std::string findBoundary(std::stringstream&);

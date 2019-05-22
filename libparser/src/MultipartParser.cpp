@@ -9,6 +9,28 @@ using std::copy;
 using std::runtime_error;
 using std::find;
 
+inline void
+swap(MultipartParser& lhs, MultipartParser& rhs)
+{
+    using std::swap;
+
+    swap(lhs.boundary, rhs.boundary);
+    swap(lhs.content, rhs.content);
+}
+
+MultipartParser::MultipartParser(MultipartParser&& other):
+    boundary(std::move(other.boundary)),
+    content(std::move(other.content))
+{ }
+
+MultipartParser&
+MultipartParser::operator=(MultipartParser &&other)
+{
+    swap(*this, other);
+
+    return *this;
+}
+
 
 void
 MultipartParser::parse(string input)
