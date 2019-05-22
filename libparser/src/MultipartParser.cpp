@@ -44,7 +44,7 @@ MultipartParser::parse(string input)
     extractContent(std::move(parts));
 }
 
-std::string
+inline std::string
 MultipartParser::findBoundary(std::stringstream& request)
 {
     const string boundaryStr = "boundary=";
@@ -69,7 +69,7 @@ MultipartParser::findBoundary(std::stringstream& request)
     return boundary;
 }
 
-vector<MultipartParser::part>
+inline vector<MultipartParser::part>
 MultipartParser::divideIntoParts(stringstream &&str)
 {
     vector<part> parts;
@@ -98,7 +98,7 @@ MultipartParser::divideIntoParts(stringstream &&str)
     return parts;
 }
 
-void
+inline void
 MultipartParser::extractContent(vector<part>&& _parts)
 {
     string name_keyword = "name=";
