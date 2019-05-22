@@ -13,6 +13,7 @@ public:
     using part = std::vector<std::string>;
 
     MultipartParser() = default;
+    ~MultipartParser() = default;
 
     /* 
      * Парсер, скорее всего, будет содержать в себе огромное количество
