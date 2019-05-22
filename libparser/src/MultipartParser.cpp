@@ -138,13 +138,13 @@ MultipartParser::extractContent(vector<part>&& _parts)
     }
 }
 
-bool
+inline bool
 MultipartParser::doneParsing()
 {
     return (content.size() != 0);
 }
 
-string
+inline string
 MultipartParser::getBoundary() const
 {
     return boundary;
