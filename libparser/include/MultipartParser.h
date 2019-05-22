@@ -29,7 +29,6 @@ public:
 
     virtual void parse(std::string);
     bool doneParsing();
-    void clearFluff();
 
     std::string getBoundary() const;
 
