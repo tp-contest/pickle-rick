@@ -58,6 +58,8 @@ MultipartParser::findBoundary(std::stringstream& request)
             buffer.size() - (boundaryPos + boundaryStr.size() + 1)
             // +1 потому что в буфере в конце будет лежать \r
         );
+    } else {
+        throw runtime_error("Couldn't find " + boundaryStr + ".");
     }
 
     // отматываем поток до тех пор, пока не найдём первый разделитель
@@ -92,6 +94,9 @@ MultipartParser::divideIntoParts(stringstream &&str)
         //убираем \r из конца строки
         copy(begin(buffer), --end(buffer), back_inserter(parts.back().back()));
     }
+
+    if (parts.size() == 0)
+        throw runtime_error("couldn't divide request body into parts");
 
     return parts;
 }
