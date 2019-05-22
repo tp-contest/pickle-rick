@@ -17,6 +17,10 @@ swap(MultipartParser& lhs, MultipartParser& rhs)
     swap(lhs.content, rhs.content);
 }
 
+MultipartParser::MultipartParser(string partNameToken, string  boundaryToken):
+    partNameToken(std::move(partNameToken)), boundaryToken(std::move(boundaryToken))
+{ }
+
 MultipartParser::MultipartParser(MultipartParser&& other):
     boundary(std::move(other.boundary)),
     content(std::move(other.content))
@@ -45,21 +49,20 @@ MultipartParser::parse(string input)
 inline std::string
 MultipartParser::findBoundary(std::stringstream& request)
 {
-    const string boundaryStr = "boundary=";
     string buffer;
     //ищем наш boundary
     size_t boundaryPos;
     while (getline(request, buffer) &&
-            (boundaryPos = buffer.find(boundaryStr)) == string::npos);
+            (boundaryPos = buffer.find(boundaryToken)) == string::npos);
     //если цикл закончился НЕ по причине того, что мы дошли до конца потока...
     if (request) {
         boundary = buffer.substr(
-            boundaryPos + boundaryStr.size(),
-            buffer.size() - (boundaryPos + boundaryStr.size() + 1)
+            boundaryPos + boundaryToken.size(),
+            buffer.size() - (boundaryPos + boundaryToken.size() + 1)
             // +1 потому что в буфере в конце будет лежать \r
         );
     } else {
-        throw runtime_error("Couldn't find " + boundaryStr + ".");
+        throw runtime_error("Couldn't find " + boundaryToken + ".");
     }
 
     // отматываем поток до тех пор, пока не найдём первый разделитель
@@ -104,7 +107,6 @@ MultipartParser::divideIntoParts(stringstream &&str)
 inline void
 MultipartParser::extractContent(vector<part>&& _parts)
 {
-    string nameKeyword = "name=";
     auto parts = _parts;
 
     for (auto const &p: parts) {
@@ -116,7 +118,7 @@ MultipartParser::extractContent(vector<part>&& _parts)
             string buffer;
             while (thisLine >> buffer) {
                 //если токен начинается с nameKeyword...
-                if (buffer.find(nameKeyword) == 0) {
+                if (buffer.find(partNameToken) == 0) {
                     size_t firstQuotePos = buffer.find('\"') + 1;
                     size_t secondQuotePos = buffer.find_last_of('\"');
                     partName = buffer.substr(

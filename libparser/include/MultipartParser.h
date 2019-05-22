@@ -12,7 +12,7 @@ class MultipartParser : public IParser {
 public:
     using part = std::vector<std::string>;
 
-    MultipartParser() = default;
+    MultipartParser(std::string = "name=", std::string = "boundary=");
     ~MultipartParser() = default;
 
     /* 
@@ -35,6 +35,9 @@ public:
 
     inline friend void swap(MultipartParser&, MultipartParser&);
 private:
+    const std::string partNameToken;
+    const std::string boundaryToken;
+
     std::string boundary;
     std::map<std::string, std::string> content;
 
