@@ -30,7 +30,6 @@ MultipartParser::operator=(MultipartParser &&other)
     return *this;
 }
 
-
 void
 MultipartParser::parse(string input)
 {
