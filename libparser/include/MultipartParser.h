@@ -6,9 +6,7 @@
 #include <vector>
 #include <map>
 
-#include <memory>
 #include <algorithm>
-#include <iterator>
 
 class MultipartParser : public IParser {
 public:

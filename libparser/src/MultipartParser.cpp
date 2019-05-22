@@ -4,7 +4,6 @@ using std::stringstream;
 using std::vector;
 using std::string;
 using std::getline;
-using std::istream_iterator;
 using std::copy;
 using std::runtime_error;
 using std::find;
@@ -144,7 +143,7 @@ MultipartParser::doneParsing()
     return (content.size() != 0);
 }
 
-inline string
+string
 MultipartParser::getBoundary() const
 {
     return boundary;
