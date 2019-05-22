@@ -74,14 +74,14 @@ MultipartParser::divideIntoParts(stringstream &&str)
 
     auto stream = std::move(str);
     const string divider = "--" + boundary + '\r';
-    const string request_end = "--" + boundary + "--\r";
+    const string requestEnd = "--" + boundary + "--\r";
 
     string buffer;
 
 
     parts.push_back(part());
 
-    while (getline(stream, buffer) && buffer != request_end) {
+    while (getline(stream, buffer) && buffer != requestEnd) {
         //нашли следующую часть
         if (buffer == divider) {
             parts.push_back(part());
@@ -99,40 +99,40 @@ MultipartParser::divideIntoParts(stringstream &&str)
 inline void
 MultipartParser::extractContent(vector<part>&& _parts)
 {
-    string name_keyword = "name=";
+    string nameKeyword = "name=";
     auto parts = _parts;
 
     for (auto const &p: parts) {
-        string part_name = "";
-        auto part_iter = begin(p), part_end = end(p);
+        string partName = "";
+        auto partIter = begin(p), partEnd = end(p);
         //пока мы не нашли название части, итерируем по строкам части
-        for (; part_name == "" && part_iter != part_end; part_iter++) {
-            stringstream this_line(*part_iter);
+        for (; partName == "" && partIter != partEnd; partIter++) {
+            stringstream thisLine(*partIter);
             string buffer;
-            while (this_line >> buffer) {
-                //если токен начинается с name_keyword...
-                if (buffer.find(name_keyword) == 0) {
-                    size_t first_quote_pos = buffer.find('\"') + 1;
-                    size_t second_quote_pos = buffer.find_last_of('\"');
-                    part_name = buffer.substr(
-                        first_quote_pos, second_quote_pos - first_quote_pos
+            while (thisLine >> buffer) {
+                //если токен начинается с nameKeyword...
+                if (buffer.find(nameKeyword) == 0) {
+                    size_t firstQuotePos = buffer.find('\"') + 1;
+                    size_t secondQuotePos = buffer.find_last_of('\"');
+                    partName = buffer.substr(
+                        firstQuotePos, secondQuotePos - firstQuotePos
                     );
                     break;
                 }
             }
         }
 
-        if (part_name == "")
+        if (partName == "")
             throw runtime_error("Couldn't find part's name");
 
-        auto empty_line_pos = find(part_iter, part_end, "");
+        auto emptyLinePos = find(partIter, partEnd, "");
 
-        string temp_str;
+        string tempStr;
         for_each (
-            empty_line_pos, part_end,
-            [&](const string& arg) {temp_str += arg;}
+            emptyLinePos, partEnd,
+            [&](const string& arg) {tempStr += arg;}
         );
-        content[part_name] = temp_str;
+        content[partName] = tempStr;
     }
 }
 
