@@ -1,41 +1,22 @@
-cmake_minimum_required(VERSION 3.0.0)
+cmake_minimum_required(VERSION 3.2.0)
 
-set(TARGET scheduler)
-set(BUILD_FLAGS -Wall -Wextra -Werror -Wpedantic)
+project(scheduler VERSION 0.1.0)
 
+set(BUILD_FLAGS)
 
-project(${TARGET} VERSION 0.1.0)
+find_package(Boost COMPONENTS thread system REQUIRED)
 
 include_directories(include)
-set(
-        SOURCES
-        include/scheduler.h
-        src/consumer.cpp
-        src/consumer.h
-        src/data_container.cpp
-        src/data_container.h
-        src/i_queue.cpp
-        src/i_queue.h
-        src/producer.cpp
-        src/producer.h
-        src/queue.cpp
-        src/queue.h
-        src/scheduler.cpp
-        src/string_producer.cpp
-        src/string_producer.h
-        src/string_consumer.cpp
-        src/string_consumer.h
-)
+file(GLOB SOURCE_FILES "src/*")
 
-add_library(${TARGET} ${SOURCES})
+add_library(${PROJECT_NAME} SHARED ${SOURCE_FILES})
 
-set_target_properties(${TARGET} PROPERTIES
+add_dependencies(${PROJECT_NAME} clientworker)
+target_link_libraries(${PROJECT_NAME} clientworker ${Boost_LIBRARIES})
+
+set_target_properties(${PROJECT_NAME} PROPERTIES
         LINKER_LANGUAGE CXX
         CXX_STANDARD 17
         CXX_STANDARD_REQUIRED YES
         CXX_EXTENSIONS NO
-        set_target_properties (${TARGET} PROPERTIES COMPILE_FLAGS ${BUILD_FLAGS}))
-
-set(CPACK_PROJECT_NAME ${PROJECT_NAME})
-set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
-include(CPack)
+        PROPERTIES COMPILE_FLAGS -Wall -Wextra -Werror -Wpedantic)
