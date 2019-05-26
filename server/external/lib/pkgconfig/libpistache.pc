@@ -1,0 +1,14 @@
+prefix=/home/daria/CLionProjects/pickle/server/external
+exec_prefix=/home/daria/CLionProjects/pickle/server/external/bin
+libdir=/home/daria/CLionProjects/pickle/server/external/lib/
+includedir=/home/daria/CLionProjects/pickle/server/external/include/
+
+Name: libpistache
+URL: http://pistache.io/
+Description: An elegant C++ REST framework.
+Version: 0.0.001
+Requires:
+Libs: -L'${libdir}/' -lpistache -lpthread
+Libs.private:
+Cflags: -I'${includedir}/'
+
