@@ -4,6 +4,7 @@
 #include "stdlib.h"
 #include "IAdmins.h"
 
+
 class Admins : public IAdmins {
 
 public:
@@ -12,11 +13,13 @@ public:
 		this->dataBase = Base;
 	}
 
-	AdminStruct getAdmin(int adminID) override;
 
-	vector<AdminStruct> getAdminsForContest(int contestID) override;
 
-	bool setAdmin(int contestID, int userID, int adminID = -1) override;
+	AdminStruct GetAdmin(int adminID) override;
+
+	vector<AdminStruct> GetAdminsForContest(int contestID) override;
+
+	bool SetAdmin(int contestID, int userID, int adminID = -1) override;
 
 
 private:

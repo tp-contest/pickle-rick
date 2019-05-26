@@ -11,13 +11,13 @@ class Logs : public ILogs {
 public:
 	Logs(IDataBase* DB);
 
-	LogStruct getLog(int logID) override;
+	LogStruct GetLog(int logID) override;
 
-	vector<LogStruct> getLogsForContest(int contestID) override;
+	vector<LogStruct> GetLogsForContest(int contestID) override;
 
-	vector<LogStruct> getLogsForUser(int userID) override;
+	vector<LogStruct> GetLogsForUser(int userID) override;
 
-	bool addLog(string path, int user_id, int contest_id) override;
+	bool AddLog(string path, int user_id, int contest_id) override;
 
 private:
 

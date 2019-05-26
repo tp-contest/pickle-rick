@@ -16,13 +16,15 @@ class Contest : public IContest {
 public:
 	Contest(Admins* admins, Competitors* competitors, Logs* logs, Tasks* tasks, IDataBase* DB);
 
-	ContestStruct getContest(int contestID) override;
+	ContestStruct GetContest(int contestID) override;
 
-	ContestStruct getContest(string title) override;
+	ContestStruct GetContest(string title) override;
 
-	vector<ContestStruct> getContestsList() override;
+	vector<ContestStruct> GetContestsList() override;
 
-	bool setContest(int start_time, int end_time, string description) override;
+	bool SetContest(int start_time, int end_time, string description) override;
+
+	ContestStruct CreateContest(ContestData contestData) override;
 
 private:
 

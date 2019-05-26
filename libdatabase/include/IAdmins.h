@@ -18,9 +18,9 @@ const int admin_field_count = 3;
 class IAdmins {
 public:
 
-	AdminStruct virtual getAdmin(int adminID) = 0;
+	AdminStruct virtual GetAdmin(int adminID) = 0;
 
-	vector<AdminStruct> virtual getAdminsForContest(int contestID) = 0;
+	vector<AdminStruct> virtual GetAdminsForContest(int contestID) = 0;
 
-	bool virtual setAdmin(int contestID, int userID, int adminID = -1) = 0;
+	bool virtual SetAdmin(int contestID, int userID, int adminID = -1) = 0;
 };

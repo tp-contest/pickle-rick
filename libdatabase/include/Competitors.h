@@ -12,11 +12,13 @@ public:
 		this->dataBase = DB;
 	}
 
-	CompetitorStruct getCompetitor(int competitorID) override;
+	CompetitorStruct 
 
-	vector<CompetitorStruct> getCompetitorsForContest(int contestID) override;
+	CompetitorStruct GetCompetitor(int competitorID) override;
 
-	bool virtual setCompetitor(int contestID, int userID, int competitorID = -1) override;
+	vector<CompetitorStruct> GetCompetitorsForContest(int contestID) override;
+
+	bool virtual SetCompetitor(int contestID, int userID, int competitorID = -1) override;
 
 private:
 

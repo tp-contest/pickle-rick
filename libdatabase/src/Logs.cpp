@@ -3,10 +3,10 @@
 Logs::Logs(IDataBase* DB) {
 	this->dataBase = DB;
 }
-LogStruct Logs::getLog(int logID) {
+LogStruct Logs::GetLog(int logID) {
 	LogStruct log;
 	vector<string> result_vector;
-	result_vector = dataBase->select("*", "Logs", "id =" + to_string(logID));
+	result_vector = dataBase->Select("*", "Logs", "id =" + to_string(logID));
 	if (result_vector.size() == 1) {
 		log.log_id = -1;
 		return log;
@@ -21,10 +21,10 @@ LogStruct Logs::getLog(int logID) {
 	}
 	return log;
 }
-vector<LogStruct> Logs::getLogsForContest(int contestID) {
+vector<LogStruct> Logs::GetLogsForContest(int contestID) {
 	vector<LogStruct> logVector;
 	vector<string> result_vector;
-	result_vector = dataBase->select("*", "Logs", "contest_id =" + to_string(contestID));
+	result_vector = dataBase->Select("*", "Logs", "contest_id =" + to_string(contestID));
 	if (result_vector.size() == 1) {
 		LogStruct log;
 		log.log_id = -1;
@@ -43,10 +43,10 @@ vector<LogStruct> Logs::getLogsForContest(int contestID) {
 	}
 	return logVector;
 }
-vector<LogStruct> Logs::getLogsForUser(int userID) {
+vector<LogStruct> Logs::GetLogsForUser(int userID) {
 	vector<LogStruct> logVector;
 	vector<string> result_vector;
-	result_vector = dataBase->select("*", "Logs", "contest_id =" + to_string(userID));
+	result_vector = dataBase->Select("*", "Logs", "contest_id =" + to_string(userID));
 	if (result_vector.size() == 1) {
 		LogStruct log;
 		log.log_id = -1;
@@ -65,8 +65,8 @@ vector<LogStruct> Logs::getLogsForUser(int userID) {
 	}
 	return logVector;
 }
-bool Logs::addLog(string path, int user_id, int contest_id) {
+bool Logs::AddLog(string path, int user_id, int contest_id) {
 	string values = "(" + path + ", " + to_string(user_id) + ", " + to_string(user_id) + ")";
-	dataBase->insert("Logs", "(user_id, contest_id, path)", values);
+	dataBase->Insert("Logs", "(user_id, contest_id, path)", values);
 	return true;
 }

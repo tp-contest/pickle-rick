@@ -8,11 +8,11 @@ using namespace std;
 
 class IDataBase {
 public:
-	vector<string> virtual select(string selector, string table, string condition = "") = 0;
+	vector<string> virtual Select(string selector, string table, string condition = "") = 0;
 
-	vector<string> virtual update(string table, string set, string condition = "") = 0;
+	vector<string> virtual Update(string table, string set, string condition = "") = 0;
 
-	vector<string> virtual insert(string table, string variables, string values) = 0;
+	vector<string> virtual Insert(string table, string variables, string values) = 0;
 
-	vector<string> virtual delete_(string table, string condition) = 0;
+	vector<string> virtual Delete_(string table, string condition) = 0;
 };

@@ -8,7 +8,7 @@ DataBaseMySQL::DataBaseMySQL() : conn(mysql_init(NULL)) {
 		cout << "Connection Failed" << endl;
 	}
 }
-vector<string> DataBaseMySQL::select(string selector, string table, string condition) {
+vector<string> DataBaseMySQL::Select(string selector, string table, string condition) {
 
 	result_vector.clear();
 	if (!conn)
@@ -28,7 +28,7 @@ vector<string> DataBaseMySQL::select(string selector, string table, string condi
 	return result_vector;
 }
 
-vector<string> DataBaseMySQL::update(string table, string set, string condition) {
+vector<string> DataBaseMySQL::Update(string table, string set, string condition) {
 	result_vector.clear();
 	if (!conn)
 	{
@@ -47,7 +47,7 @@ vector<string> DataBaseMySQL::update(string table, string set, string condition)
 	return result_vector;
 }
 
-vector<string> DataBaseMySQL::insert(string table, string variables, string values) {
+vector<string> DataBaseMySQL::Insert(string table, string variables, string values) {
 	result_vector.clear();
 	if (!conn)
 	{
@@ -66,7 +66,7 @@ vector<string> DataBaseMySQL::insert(string table, string variables, string valu
 	return result_vector;
 }
 
-vector<string> DataBaseMySQL::delete_(string table, string condition) {
+vector<string> DataBaseMySQL::Delete_(string table, string condition) {
 	result_vector.clear();
 	if (!conn)
 	{

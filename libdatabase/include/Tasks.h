@@ -10,11 +10,13 @@ class Tasks : public ITasks {
 public:
 	Tasks(IDataBase* DB);
 
-	TaskStruct getTask(int taskID) override;
+	TaskStruct GetTask(int taskID) override;
 
-	vector<TaskStruct> getTasksForContest(int contestID) override;
+	vector<TaskStruct> GetTasksForContest(int contestID) override;
 
-	bool addTask(string description, string settings) override;
+	bool AddTask(string description, string settings) override;
+
+	TaskStruct CreateTask(TaskData taskData) override;
 
 private:
 

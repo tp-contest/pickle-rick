@@ -8,16 +8,26 @@ using namespace std;
 
 struct TaskStruct {
 	int task_id;
-	string description;
-	string settings;
+	int user_id;
+	int contest_id;
+	int task_file_id;
 };
+
+struct TaskData {
+	int user_id;
+	int contest_id;
+	int task_file_id;
+};
+
 const int task_field_count = 3;
 
 class ITasks {
 public:
-	TaskStruct virtual getTask(int taskID) = 0;
+	TaskStruct virtual GetTask(int ID) = 0;
 
-	vector<TaskStruct> virtual getTasksForContest(int contestID) = 0;
+	vector<TaskStruct> virtual GetTasksForContest(int contestID) = 0;
 
-	bool virtual addTask(string description, string settings) = 0;
+	bool virtual AddTask(string description, string settings) = 0;
+
+	TaskStruct virtual CreateTask(TaskData taskData) = 0;
 };

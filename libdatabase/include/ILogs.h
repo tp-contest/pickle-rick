@@ -16,11 +16,11 @@ const int log_field_count = 4;
 
 class ILogs {
 public:
-	LogStruct virtual getLog(int logID) = 0;
+	LogStruct virtual GetLog(int logID) = 0;
 
-	vector<LogStruct> virtual getLogsForContest(int contestID) = 0;
+	vector<LogStruct> virtual GetLogsForContest(int contestID) = 0;
 
-	vector<LogStruct> virtual getLogsForUser(int userID) = 0;
+	vector<LogStruct> virtual GetLogsForUser(int userID) = 0;
 
-	bool virtual addLog(string path, int user_id, int contest_id) = 0;
+	bool virtual AddLog(string path, int user_id, int contest_id) = 0;
 };
