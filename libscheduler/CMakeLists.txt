@@ -14,6 +14,7 @@ add_library(${PROJECT_NAME} SHARED ${SOURCE_FILES})
 add_dependencies(${PROJECT_NAME} clientworker)
 target_link_libraries(${PROJECT_NAME} clientworker ${Boost_LIBRARIES})
 
+target_include_directories(${PROJECT_NAME} PUBLIC "include")
 set_target_properties(${PROJECT_NAME} PROPERTIES
         LINKER_LANGUAGE CXX
         CXX_STANDARD 17

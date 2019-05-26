@@ -10,6 +10,7 @@
 #include "DatabaseApiImpl.h"
 #include "SchedulerApiImpl.h"
 #include "StorageApiImpl.h"
+#include "scheduler.h"
 
 #define PISTACHE_SERVER_THREADS 100
 #define PISTACHE_SERVER_MAX_PAYLOAD 3276800
@@ -63,8 +64,11 @@ int main() {
 
   DatabaseApiImpl DatabaseApiserver(router);
   DatabaseApiserver.init();
-  SchedulerApiImpl SchedulerApiserver(router);
+
+  auto scheduler = std::make_shared<Scheduler<DataContainer>>();
+  SchedulerApiImpl SchedulerApiserver(router, scheduler);
   SchedulerApiserver.init();
+
   StorageApiImpl StorageApiserver(router);
   StorageApiserver.init();
 

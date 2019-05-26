@@ -9,24 +9,25 @@
 #include "data_container.h"
 #include "i_queue.h"
 
-class Queue : public IQueue<DataContainer> {
-  std::queue<DataContainer, std::deque<DataContainer>> queue;
+template <typename ContainerData>
+class Queue : public IQueue<ContainerData> {
+  std::queue<ContainerData, std::deque<ContainerData>> queue;
   boost::mutex m_mutex;
   boost::condition_variable m_cond;
 
-  void Push(const DataContainer& data) override {
+  void Push(const ContainerData& data) override {
     boost::unique_lock<boost::mutex> lock(m_mutex);
     queue.push(data);
     m_cond.notify_one();
   }
 
-  DataContainer Pop() override {
+  ContainerData Pop() override {
     boost::unique_lock<boost::mutex> lock(m_mutex);
     while (IsEmpty()) {
       m_cond.wait(lock);
     }
 
-    DataContainer data = queue.front();
+    ContainerData data = queue.front();
     queue.pop();
     return data;
   }

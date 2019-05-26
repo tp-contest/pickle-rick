@@ -23,13 +23,14 @@ using namespace org::openapitools::server::model;
 
 class SchedulerApiImpl : public org::openapitools::server::api::SchedulerApi {
  public:
-  SchedulerApiImpl(std::shared_ptr<Pistache::Rest::Router>);
+  SchedulerApiImpl(std::shared_ptr<Pistache::Rest::Router>,
+                   const std::shared_ptr<Scheduler<DataContainer>> &);
   ~SchedulerApiImpl() {}
 
   void send_task(const Task &task, Pistache::Http::ResponseWriter &response);
 
  private:
-  Scheduler scheduler;
+  std::shared_ptr<Scheduler<DataContainer>> scheduler;
 };
 
 }  // namespace api

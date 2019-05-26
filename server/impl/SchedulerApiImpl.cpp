@@ -10,9 +10,11 @@ namespace api {
 
 using namespace org::openapitools::server::model;
 
-SchedulerApiImpl::SchedulerApiImpl(std::shared_ptr<Pistache::Rest::Router> rtr)
-    : SchedulerApi(rtr) {
-  scheduler.ServeThread();
+SchedulerApiImpl::SchedulerApiImpl(
+    std::shared_ptr<Pistache::Rest::Router> rtr,
+    const std::shared_ptr<Scheduler<DataContainer>> &scheduler)
+    : SchedulerApi(rtr), scheduler(scheduler) {
+  scheduler->ServeThread();
 }
 
 void SchedulerApiImpl::send_task(const Task &task,
@@ -21,9 +23,9 @@ void SchedulerApiImpl::send_task(const Task &task,
   data.taskId = task.getTaskId();
   data.userId = task.getUserId();
   data.contestId = task.getContestId();
-  data.taskFileId = task.getTaskId();
+  data.taskFileId = task.getTaskFileId();
 
-  scheduler.Push(data);
+  scheduler->Push(data);
   response.send(Pistache::Http::Code::Ok, "Do some magic\n");
 }
 

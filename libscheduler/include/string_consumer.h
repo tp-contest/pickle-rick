@@ -16,15 +16,16 @@ using org::openapitools::client::api::ApiConfiguration;
 using org::openapitools::client::api::WorkerApi;
 using org::openapitools::client::api::Task;
 
-class StringConsumer : public Consumer<DataContainer> {
+template <typename ContainerData>
+class StringConsumer : public Consumer<ContainerData> {
  private:
   std::shared_ptr<ApiConfiguration> configuration;
   std::shared_ptr<ApiClient> client;
   WorkerApi wa;
 
  public:
-  explicit StringConsumer(Queue *queue)
-      : Consumer(queue),
+  explicit StringConsumer(Queue<ContainerData> *queue)
+      : Consumer<ContainerData>(queue),
         configuration(std::make_shared<ApiConfiguration>()),
         client(std::make_shared<ApiClient>(configuration)),
         wa(client) {
@@ -36,8 +37,8 @@ class StringConsumer : public Consumer<DataContainer> {
   void Consume() override {
     auto slots = wa.freeSlots();
     int slotsCount = slots.get()[0]->getCount();
-    while(slotsCount != 0 && !IsEmpty()) {
-      DataContainer data = Pop();
+    while(slotsCount != 0 && !Consumer<ContainerData>::IsEmpty()) {
+      ContainerData data = Consumer<ContainerData>::Pop();
       std::cout << data.taskId << std::endl;
       auto task = std::make_shared<Task>();
       task->setTaskId(data.taskId);
